@@ -19,7 +19,7 @@ public class QuantityMeasurementAppTest {
         QuantityLength q2 = new QuantityLength(1.0, LengthUnit.FEET);
 
         assertTrue(q1.equals(q2));
-    }
+    } 
 
     @Test
     void testEquality_DifferentValue() {

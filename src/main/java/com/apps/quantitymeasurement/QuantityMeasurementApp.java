@@ -15,7 +15,7 @@ import java.util.Objects;
         this.unit = unit;
     }
 
-    private double toFeet() {
+    private double toFeet() { 
         return unit.toFeet(value);
     }
 
