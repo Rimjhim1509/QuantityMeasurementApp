@@ -1,53 +1,56 @@
 package com.apps.quantitymeasurement;
 import java.util.Objects;
 
- class QuantityLength {
-
-    private final double value;
-    private final LengthUnit unit;
-
-    public QuantityLength(double value, LengthUnit unit) {
-
-        if (unit == null)
-            throw new IllegalArgumentException("Unit cannot be null");
-
-        this.value = value;
-        this.unit = unit;
-    }
-
-    private double toFeet() { 
-        return unit.toFeet(value);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        if (this == obj)
-            return true;
-
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        QuantityLength other = (QuantityLength) obj;
-
-        return Double.compare(this.toFeet(), other.toFeet()) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(toFeet());
-    }
-}
 public class QuantityMeasurementApp {
+
+    // Generic method to demonstrate Length equality
+    public static boolean demonstrateLengthEquality(Length length1, Length length2) {
+
+        boolean result = length1.equals(length2);
+
+        System.out.println("Comparing: "
+                + length1 + " AND " + length2
+                + " -> Equal? " + result);
+
+        return result;
+    }
+
+    // Static method to create Length objects and compare
+    public static boolean demonstrateLengthComparison(
+            double value1, Length.LengthUnit unit1,
+            double value2, Length.LengthUnit unit2) {
+
+        Length length1 = new Length(value1, unit1);
+        Length length2 = new Length(value2, unit2);
+
+        return demonstrateLengthEquality(length1, length2);
+    }
 
     public static void main(String[] args) {
 
-        QuantityLength q1 =
-                new QuantityLength(1.0, LengthUnit.FEET);
+        // Feet and Inches
+        demonstrateLengthComparison(
+                1.0, Length.LengthUnit.FEET,
+                12.0, Length.LengthUnit.INCHES);
 
-        QuantityLength q2 =
-                new QuantityLength(12.0, LengthUnit.INCH);
+        // Yards and Inches
+        demonstrateLengthComparison(
+                1.0, Length.LengthUnit.YARDS,
+                36.0, Length.LengthUnit.INCHES);
 
-        System.out.println(q1.equals(q2)); 
+        // Centimeters and Inches
+        demonstrateLengthComparison(
+                100.0, Length.LengthUnit.CENTIMETERS,
+                39.3701, Length.LengthUnit.INCHES);
+
+        // Feet and Yards
+        demonstrateLengthComparison(
+                3.0, Length.LengthUnit.FEET,
+                1.0, Length.LengthUnit.YARDS);
+
+        // Centimeters and Feet
+        demonstrateLengthComparison(
+                30.48, Length.LengthUnit.CENTIMETERS,
+                1.0, Length.LengthUnit.FEET);
     }
 }
