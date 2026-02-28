@@ -1,6 +1,6 @@
-# UC13: Centralized Arithmetic Logic (DRY Refactor)
+## UC13: Centralized Arithmetic Logic (DRY Refactor)
 
-**Date:** February 24, 2026  
+**Date:** February 27, 2026  
 
 ---
 
