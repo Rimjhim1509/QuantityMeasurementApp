@@ -1,36 +1,41 @@
 package com.apps.quantitymeasurement;
 
+import com.apps.quantitymeasurement.controller.QuantityMeasurementController;
+import com.apps.quantitymeasurement.entity.QuantityDTO;
+import com.apps.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.apps.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
+import com.apps.quantitymeasurement.service.IQuantityMeasurementService;
+import com.apps.quantitymeasurement.service.QuantityMeasurementServiceImpl;
+
 public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
+    	IQuantityMeasurementRepository repository = QuantityMeasurementCacheRepository.getInstance();
 
-        Quantity<LengthUnit> length1 = new Quantity<>(10.0, LengthUnit.FEET);
-        Quantity<LengthUnit> length2 = new Quantity<>(6.0, LengthUnit.INCHES);
+        IQuantityMeasurementService service = new QuantityMeasurementServiceImpl(repository);
 
-        System.out.println("Subtract Length: " + length1.subtract(length2));
+        QuantityMeasurementController controller = new QuantityMeasurementController(service);
 
-        System.out.println("Subtract Explicit (Inches): " + length1.subtract(length2, LengthUnit.INCHES));
+        QuantityDTO length1 = new QuantityDTO(10, QuantityDTO.LengthUnit.FEET);
+        QuantityDTO length2 = new QuantityDTO(120, QuantityDTO.LengthUnit.INCHES);
+        controller.performCompare(length1, length2);
 
-        Quantity<WeightUnit> weight1 = new Quantity<>(10.0, WeightUnit.KILOGRAM);
-        Quantity<WeightUnit> weight2 = new Quantity<>(5.0, WeightUnit.KILOGRAM);
+        QuantityDTO weight = new QuantityDTO(1, QuantityDTO.WeightUnit.KILOGRAM);
+        controller.performConvert(weight, "GRAM");
 
-        System.out.println("Division Weight: " + weight1.divide(weight2));
+        QuantityDTO feet = new QuantityDTO(10, QuantityDTO.LengthUnit.FEET);
+        QuantityDTO inches = new QuantityDTO(6, QuantityDTO.LengthUnit.INCHES);
+        controller.performAdd(feet, inches);
 
-        Quantity<VolumeUnit> volume1 = new Quantity<>(5.0, VolumeUnit.LITRE);
-        Quantity<VolumeUnit> volume2 = new Quantity<>(10.0, VolumeUnit.LITRE);
+        controller.performSubtract(feet, inches);
 
-        System.out.println("Division Volume: " + volume1.divide(volume2));
-        
-        Quantity<TemperatureUnit> t1 =
-                new Quantity<>(100, TemperatureUnit.CELSIUS);
+        QuantityDTO feet20 = new QuantityDTO(20, QuantityDTO.LengthUnit.FEET);
+        QuantityDTO feet5 = new QuantityDTO(5, QuantityDTO.LengthUnit.FEET);
+        controller.performDivide(feet20, feet5);
 
-        Quantity<TemperatureUnit> t2 =
-                new Quantity<>(212, TemperatureUnit.FAHRENHEIT);
+        QuantityDTO temp1 = new QuantityDTO(0, QuantityDTO.TemperatureUnit.CELSIUS);
+        QuantityDTO temp2 = new QuantityDTO(32, QuantityDTO.TemperatureUnit.FAHRENHEIT);
 
-        System.out.println(t1.equals(t2));
-
-        System.out.println(t2.convertTo(TemperatureUnit.CELSIUS));
-
-        t1.add(t2);
+        controller.performCompare(temp1, temp2);
     }
 }
