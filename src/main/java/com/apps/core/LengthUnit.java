@@ -1,6 +1,7 @@
-package com.apps.quantitymeasurement.unit;
+package com.apps.core;
 
 public enum LengthUnit implements IMeasurable {
+
     FEET(12.0),
     INCHES(1.0),
     YARDS(36.0),
@@ -20,32 +21,17 @@ public enum LengthUnit implements IMeasurable {
     @Override
     public double convertToBaseUnit(double value) {
         double result = value * conversionFactor;
-        return roundOffTillTwoDecimal(result);
+        return Math.round(result * 100.0) / 100.0;
     }
 
     @Override
     public double convertFromBaseUnit(double baseValue) {
         double result = baseValue / conversionFactor;
-        return roundOffTillTwoDecimal(result);
-    }
-
-    private double roundOffTillTwoDecimal(double value) {
-        return Math.round(value * 100.0) / 100.0;
+        return Math.round(result * 100.0) / 100.0;
     }
 
     @Override
     public String getUnitName() {
         return this.name();
-    }
-
-    public String getMeasurementType() {
-        return this.getClass().getSimpleName();
-    }
-
-    public static IMeasurable getUnitInstance(String unitName) {
-        for (LengthUnit unit : LengthUnit.values()) {
-            if (unit.name().equalsIgnoreCase(unitName)) return unit;
-        }
-        throw new IllegalArgumentException("Invalid length unit: " + unitName);
     }
 }
